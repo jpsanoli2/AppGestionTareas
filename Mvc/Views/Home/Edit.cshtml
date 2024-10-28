@@ -1,0 +1,45 @@
+﻿@model Dto.TareaDto
+
+@{
+    ViewData["Title"] = "Editar tarea";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (ViewBag.msg != null)
+{
+    <div class="alert alert-warning" role="alert">
+        @ViewBag.msg
+    </div>
+}
+
+<form asp-action="Edit" method="post" class="mt-3">
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="form-group">
+        <label asp-for="Nombre" class="control-label"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Descripcion" class="control-label"></label>
+        <input asp-for="Descripcion" class="form-control" />
+        <span asp-validation-for="Descripcion" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="FechaRealizar" class="control-label"></label>
+        <input asp-for="FechaRealizar" class="form-control" />
+        <span asp-validation-for="FechaRealizar" class="text-danger"></span>
+    </div>
+    <div class="row mt-5">
+        <div class="col-2">
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </div>
+        <div class="col-2">
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </div>
+    </div>
+</form>
+
+

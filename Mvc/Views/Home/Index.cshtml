@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Dto.TareaDto>
+
+
+@{
+    ViewData["Title"] = "Listado de tareas";
+}
+<h2>@ViewData["Title"]</h2>
+<td>
+    <a asp-action="Alta"  class="text-primary">Agregar tarea</a>
+</td>
+<div>
+    <a href="@Url.Action("Index", new { filtro = "todas" })" class="btn btn-primary">Ver Todas</a>
+    <a href="@Url.Action("Index", new { filtro = "pendientes" })" class="btn btn-secondary">Ver Pendientes</a>
+</div>
+@if (TempData["msg"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["msg"]
+    </div>
+}
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+            <th>Fecha a realizar</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var t in Model)
+        {
+            <tr>
+                <td>@t.Nombre</td>
+                <td>@t.Descripcion</td>
+                <td>@t.FechaRealizar.ToString("yyyy-MM-dd")</td>
+                @if (t.Estado == 0)
+                {
+                    <td style="color: red">@t.Estado</td>
+                }
+                else
+                {
+                    <td style="color: green">@t.Estado</td>
+                }
+                 <td>
+                    <a asp-action="Edit" asp-route-id="@t.Id" class="btn btn-info">Editar</a>
+                </td>
+                <td>
+                    <form asp-action="Delete" asp-route-id="@t.Id" method="get">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta tarea?');">
+                            Eliminar
+                        </button>
+                    </form>
+                </td>
+                @if (t.Estado == 0)
+                {
+                    <td>
+                        <form asp-action="Completar" asp-route-id="@t.Id" method="get">
+                            <button type="submit" class="btn btn-success" onclick="return confirm('¿Desea completar esta tarea?');">
+                            Completar
+                            </button>
+                        </form>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
